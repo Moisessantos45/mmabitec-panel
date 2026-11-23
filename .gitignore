@@ -31,3 +31,4 @@ skills-lock.json
 *.sw?
 
 graphify-out/
+ui/

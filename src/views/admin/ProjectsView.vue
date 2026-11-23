@@ -37,65 +37,89 @@
     </header>
 
     <div
-      class="w-full grid grid-cols-1 gap-2 sm:gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 animate-fade-in-scale bg-white"
+      class="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 animate-fade-in-scale"
     >
       <article
         v-for="project in projectsBasic"
         :key="project.id"
-        class="flex flex-col gap-2 p-4 bg-canvas-white border border-light-gray-border rounded-xl animate-fade-in-scale"
+        class="group flex flex-col justify-between bg-canvas-white border border-light-gray-border hover:border-forest-link/40 rounded-xl p-4 shadow-2xs hover:shadow-xs transition-all duration-200"
       >
-        <div class="relative w-full">
-          <img
-            :src="project.banner"
-            :alt="project.title"
-            class="text-slate-text font-medium w-full h-44 object-cover rounded-md hover:scale-110 transition-transform duration-300"
-            loading="lazy"
-            decoding="async"
-            fetchpriority="low"
-          />
-          <span
-            class="absolute top-2 left-2 bg-canvas-white/85 text-midnight-pine text-[11px] font-semibold px-2.5 py-1 rounded-full border border-light-gray-border/70 shadow-sm backdrop-blur"
-          >
-            {{ project.typeProject.toUpperCase() }}
-          </span>
-          <span
-            class="absolute top-2 right-2 bg-canvas-white/85 text-ash-gray text-[11px] font-semibold px-2.5 py-1 rounded-full border border-light-gray-border/70 shadow-sm backdrop-blur"
-          >
-            {{ project.createdAt.toUpperCase() }}
-          </span>
-        </div>
-        <div class="flex flex-col gap-5">
-          <div class="text-slate-text font-medium">
-            {{ project.title.toUpperCase() }}
+        <div class="flex flex-col gap-3">
+          <div class="flex items-center justify-between gap-2">
+            <div
+              class="w-9 h-9 rounded-lg overflow-hidden bg-forest-link/10 border border-forest-link/20 shrink-0 flex items-center justify-center shadow-2xs"
+            >
+              <img
+                v-if="project.banner"
+                :src="project.banner"
+                :alt="project.title"
+                class="w-full h-full object-cover"
+                loading="lazy"
+                decoding="async"
+                fetchpriority="low"
+              />
+              <span
+                v-else
+                class="text-xs font-semibold text-forest-link uppercase font-pp-mori"
+              >
+                {{ project.title?.[0] || "P" }}
+              </span>
+            </div>
+
+            <div class="flex items-center gap-1">
+              <button
+                type="button"
+                @click="openFullView(project.slug)"
+                :aria-label="`Compartir ${project.title}`"
+                class="px-2 py-1 text-xs font-medium text-ash-gray hover:text-midnight-pine hover:bg-light-gray-border/20 border border-light-gray-border/70 rounded-md transition-colors cursor-pointer"
+                title="Compartir"
+              >
+                Compartir
+              </button>
+              <RouterLink
+                :to="{
+                  name: 'admin-form-projects',
+                  query: { slug: project.slug },
+                }"
+                :aria-label="`Editar ${project.title}`"
+                class="p-1.5 text-ash-gray hover:text-forest-link hover:bg-forest-link/10 border border-light-gray-border/70 rounded-md transition-colors flex items-center justify-center"
+                title="Editar"
+              >
+                <FileEdit :size="13" />
+              </RouterLink>
+            </div>
           </div>
+
+          <div class="flex flex-col gap-1">
+            <h2
+              class="text-sm font-semibold text-midnight-pine font-pp-mori tracking-tight line-clamp-1 group-hover:text-forest-link transition-colors"
+              :title="project.title"
+            >
+              {{ project.title }}
+            </h2>
+            <p class="text-xs text-ash-gray leading-relaxed line-clamp-2">
+              Proyecto {{ project.typeProject }} &bull; Creado el {{ project.createdAt }}
+            </p>
+          </div>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-light-gray-border/60 flex flex-col gap-2.5">
+          <div class="flex items-center justify-between gap-2 text-xs">
+            <span class="inline-flex items-center gap-1.5 text-slate-text font-medium">
+              <span class="w-1.5 h-1.5 rounded-full bg-forest-link shrink-0"></span>
+              {{ project.typeProject }}
+            </span>
+            <span class="text-ash-gray font-mono text-[11px]">
+              {{ project.createdAt }}
+            </span>
+          </div>
+
           <DynamicDropdown
             :model-value="project.stateId"
             :options="postStatusOptions"
             @change="(s) => changeStatus(project.id, Number(s))"
+            roundedClass="rounded-lg text-xs"
           />
-          <div class="text-slate-text font-medium flex items-center gap-2">
-            <button
-              type="button"
-              @click="openFullView(project.slug)"
-              :aria-label="`Compartir ${project.title}`"
-              class="p-1.5 text-ash-gray border border-light-gray-border rounded-md transition-colors flex flex-1"
-              title="Compartir"
-            >
-              compartir
-            </button>
-            <RouterLink
-              :to="{
-                name: 'admin-form-projects',
-                query: { slug: project.slug },
-              }"
-              :aria-label="`Editar ${project.title}`"
-              class="p-1.5 text-ash-gray hover:text-forest-link hover:bg-forest-link/10 border border-light-gray-border transition-colors w-full flex items-center justify-center gap-2"
-              title="Editar"
-            >
-              Editar
-              <FileEdit :size="16" />
-            </RouterLink>
-          </div>
         </div>
       </article>
     </div>
