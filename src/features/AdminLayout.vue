@@ -7,10 +7,10 @@
 
       <AdminAside :class="[
         'transition-transform duration-300 ease-in-out z-50 shrink-0 h-full',
-        sidebarOpen ? 'fixed inset-y-0 left-0 translate-x-0' : 'fixed inset-y-0 left-0 -translate-x-full md:static md:translate-x-0'
+        sidebarOpen ? 'fixed inset-y-0 left-0 translate-x-0 shadow-2xl' : 'fixed inset-y-0 left-0 -translate-x-full md:static md:translate-x-0'
       ]" @logout="logout" @close="sidebarOpen = false" />
 
-      <div class="flex-1 flex flex-col min-w-0 overflow-hidden h-full transition-[flex] duration-300 ease-out">
+      <div class="flex-1 flex flex-col min-w-0 overflow-hidden h-full">
         <div
           class="md:hidden flex items-center justify-between px-5 py-3.5 bg-white border-b border-gray-100 z-30 shrink-0">
           <div class="flex items-center gap-2">
