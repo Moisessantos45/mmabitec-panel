@@ -29,10 +29,10 @@ import type { DropdownOption } from "../entities";
 const usePostStore = defineStore("post", () => {
   const { exec, loading, alertMessage } = useApiResult();
   const lock = ref(false);
-  const statePost = reactive<StatusGeneric[]>([]);
-  const postPublic = reactive<PostInfoBasic[]>([]);
-  const postGenerics = reactive<PostInfoGeneric[]>([]);
-  const postInfoRecent = reactive<PostInfoRecent[]>([]);
+  const statePost = ref<StatusGeneric[]>([]);
+  const postPublic = ref<PostInfoBasic[]>([]);
+  const postGenerics = ref<PostInfoGeneric[]>([]);
+  const postInfoRecent = ref<PostInfoRecent[]>([]);
   const postInfoDetailed = reactive<PostInfoDetailed>(
     structuredClone(initialPostInfoDetailed),
   );
@@ -54,7 +54,7 @@ const usePostStore = defineStore("post", () => {
   };
 
   const postStatusOptions = computed<DropdownOption[]>(() => {
-    return statePost.map((option) => {
+    return statePost.value.map((option) => {
       const theme = getThemeByName(option.name);
       return {
         id: option.id,
@@ -67,14 +67,14 @@ const usePostStore = defineStore("post", () => {
   });
 
   const getStatePost = async () => {
-    if (statePost.length > 0) return;
+    if (statePost.value.length > 0) return;
     await exec(() => apiAuth.get("/post/states"), {
       mapper(res) {
         const extractedData = res.data.data ?? [];
         return extractedData.map(mapperStateGeneric);
       },
       onSuccess: (data) => {
-        statePost.splice(0, statePost.length, ...data);
+        statePost.value = [...data];
       },
       onError: (_) => {},
     });
@@ -103,7 +103,7 @@ const usePostStore = defineStore("post", () => {
           };
         },
         onSuccess: (data) => {
-          postPublic.splice(0, postPublic.length, ...data.data);
+          postPublic.value = [...data.data];
           Object.assign(paginated, structuredClone(data.pagination));
         },
         onError: (_) => {},
@@ -118,7 +118,7 @@ const usePostStore = defineStore("post", () => {
         return extractedData.map(mapperPostInfoRecent);
       },
       onSuccess: (data) => {
-        postInfoRecent.splice(0, postInfoRecent.length, ...data);
+        postInfoRecent.value = [...data];
       },
       onError: (_) => {},
     });
@@ -145,7 +145,7 @@ const usePostStore = defineStore("post", () => {
           };
         },
         onSuccess: (data) => {
-          postGenerics.splice(0, postGenerics.length, ...data.data);
+          postGenerics.value = [...data.data];
           Object.assign(paginatedPostGeneric, structuredClone(data.pagination));
         },
         onError: (_) => {},
@@ -246,7 +246,6 @@ const usePostStore = defineStore("post", () => {
       },
     );
   };
-
 
   return {
     lock,

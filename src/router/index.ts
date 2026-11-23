@@ -69,11 +69,6 @@ const router = createRouter({
       component: () => import("../views/FullView.vue"),
     },
     {
-      path: "/register",
-      name: "register",
-      component: () => import("../views/auth/Register.vue"),
-    },
-    {
       path: "/auth/2fa",
       name: "auth-two-factor-login",
       component: () => import("../views/auth/LoginTwoFactor.vue"),

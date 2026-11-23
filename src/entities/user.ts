@@ -1,5 +1,5 @@
 interface User {
-  id: number;
+  id?: number;
   name: string;
   lastName: string;
   cvLink: string;
@@ -28,7 +28,7 @@ interface UserBasicInfo {
 }
 
 const initialUserState: User = {
-  id: -1,
+  id: undefined,
   name: "",
   lastName: "",
   cvLink: "",
