@@ -256,9 +256,9 @@
             </div>
 
             <div
-              class="grid grid-cols-1 sm:grid-cols-12 gap-4 w-full items-end pt-3 border-t border-light-gray-border/40"
+              class="flex flex-col gap-4 pt-3 border-t border-light-gray-border/40"
             >
-              <div class="w-full sm:col-span-6">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <InputField
                   label="Agregar Link Social"
                   id="socialLink"
@@ -268,8 +268,6 @@
                   v-model="tag"
                   placeholder="https://example.com/social"
                 />
-              </div>
-              <div class="w-full sm:col-span-3">
                 <InputField
                   label="Tipo de Link"
                   id="socialLinkType"
@@ -280,11 +278,11 @@
                   placeholder="Ej: Twitter, Instagram, etc."
                 />
               </div>
-              <div class="w-full sm:col-span-3">
+              <div class="flex justify-end">
                 <button
                   type="button"
                   @click="addSocialLink"
-                  class="bg-forest-link text-white rounded-circular px-5 py-2.5 text-sm font-semibold transition-colors duration-200 hover:bg-forest-link/90 shadow-sm flex items-center justify-center gap-1.5 w-full cursor-pointer h-9.5"
+                  class="bg-forest-link text-white rounded-circular px-5 py-2.5 text-sm font-semibold transition-colors duration-200 hover:bg-forest-link/90 shadow-sm flex items-center justify-center gap-1.5 w-full sm:w-auto cursor-pointer"
                 >
                   <Plus :size="16" />
                   Agregar
