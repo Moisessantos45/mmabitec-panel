@@ -84,11 +84,6 @@ const router = createRouter({
       component: () => import("../views/auth/ResetPassword.vue"),
     },
     {
-      path: "/confirm/:token",
-      name: "confirm-account",
-      component: () => import("../views/auth/ConfirmAccount.vue"),
-    },
-    {
       path: "/generate-two-factor",
       name: "generate-two-factor",
       component: () => import("../views/auth/TwoFactor.vue"),
